@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockSentryAI | Enterprise Risk Intelligence</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --radius: 16px;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dashboard-container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .hero-banner {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .hero-banner h1 {
+            font-size: 2.75rem;
+            margin: 0;
+            font-weight: 800;
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-banner p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-top: 8px;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-container { grid-template-columns: 1fr; }
+        }
+
+        .section-title {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--primary);
+            border-bottom: 2px solid #e0e7ff;
+            padding-bottom: 8px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: #f8fafc;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+        }
+
+        .action-button {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            width: 100%;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+            margin-top: 25px;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+        }
+
+        #result-section {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+            border-left: 6px solid var(--primary);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+        }
+
+        .metric-card span {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .metric-card strong {
+            font-size: 1.3rem;
+            color: #0f172a;
+        }
+
+        .badge-low { color: #059669 !important; background: #ecfdf5; border-color: #a7f3d0; }
+        .badge-medium { color: #d97706 !important; background: #fffbeb; border-color: #fde68a; }
+        .badge-high { color: #dc2626 !important; background: #fef2f2; border-color: #fecaca; }
+
+        .recommendation-banner {
+            background: #eef2ff;
+            border: 1px solid #c7d2fe;
+            padding: 18px;
+            border-radius: 10px;
+        }
+
+        .recommendation-banner span {
+            font-size: 0.75rem;
+            color: #4338ca;
+            text-transform: uppercase;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .recommendation-banner p {
+            margin: 0;
+            font-weight: 600;
+            color: #1e1b4b;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <div class="hero-banner">
+        <h1>🛡️ StockSentryAI</h1>
+        <p>IBM LinuxONE Powered Supply Chain & Financial Risk Forecasting</p>
+    </div>
+
+    <!-- Input Form Card -->
+    <div class="glass-card">
+        <div class="grid-container">
+            <div>
+                <h3 class="section-title">📦 Supply Chain Parameters</h3>
+                <div class="input-group">
+                    <label>Destination Country</label>
+                    <input type="text" id="country" value="Nigeria">
+                </div>
+                <div class="input-group">
+                    <label>Shipment Mode</label>
+                    <select id="shipment_mode">
+                        <option value="Air">Air</option>
+                        <option value="Truck">Truck</option>
+                        <option value="Ocean">Ocean</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Line Item Value ($)</label>
+                    <input type="number" id="line_item_value" value="25000">
+                </div>
+                <div class="input-group">
+                    <label>Freight Cost ($)</label>
+                    <input type="number" id="freight_cost_usd" value="1200">
+                </div>
+            </div>
+
+            <div>
+                <h3 class="section-title">📊 Financial Health Indicators</h3>
+                <div class="input-group">
+                    <label>Current Ratio</label>
+                    <input type="number" step="0.1" id="current_ratio" value="1.2">
+                </div>
+                <div class="input-group">
+                    <label>Debt-to-Equity Ratio</label>
+                    <input type="number" step="0.1" id="debt_to_equity" value="2.5">
+                </div>
+                <div class="input-group">
+                    <label>Free Cash Flow ($)</label>
+                    <input type="number" id="free_cash_flow" value="50000">
+                </div>
+            </div>
+        </div>
+
+        <button class="action-button" id="submit-btn" onclick="assessRisk()">Run Real-Time Risk Analysis</button>
+    </div>
+
+    <!-- Output Results Card -->
+    <div class="glass-card" id="result-section">
+        <h3 class="section-title">✨ Intelligence Assessment Report</h3>
+        <div class="metrics-row">
+            <div class="metric-card" id="card-level">
+                <span>Risk Level</span>
+                <strong id="res_level">-</strong>
+            </div>
+            <div class="metric-card">
+                <span>Risk Score</span>
+                <strong id="res_score">-</strong>
+            </div>
+            <div class="metric-card">
+                <span>Delay Probability</span>
+                <strong id="res_delay">-</strong>
+            </div>
+        </div>
+        <div class="recommendation-banner">
+            <span>Recommended Strategic Action</span>
+            <p id="res_action">-</p>
+        </div>
+    </div>
+</div>
+
+<script>
+async function assessRisk() {
+    const btn = document.getElementById("submit-btn");
+    btn.innerText = "Analyzing Telemetry across LinuxONE...";
+    btn.disabled = true;
+
+    const payload = {
+        "supply_chain": {
+            "country": document.getElementById("country").value,
+            "shipment_mode": document.getElementById("shipment_mode").value,
+            "vendor_inco_term": "DEX",
+            "sub_classification": "Adult",
+            "unit_of_measure_per_pack": 30,
+            "line_item_quantity": 2000,
+            "line_item_value": parseFloat(document.getElementById("line_item_value").value),
+            "pack_price": 12.5,
+            "unit_price": 0.41,
+            "freight_cost_usd": parseFloat(document.getElementById("freight_cost_usd").value)
+        },
+        "financials": {
+            "current_ratio": parseFloat(document.getElementById("current_ratio").value),
+            "debt_to_equity": parseFloat(document.getElementById("debt_to_equity").value),
+            "operating_margin": 0.15,
+            "revenue_growth": 0.05,
+            "free_cash_flow": parseFloat(document.getElementById("free_cash_flow").value)
+        }
+    };
+
+    try {
+        // Pointing correctly to port 8000 where FastAPI and the tunnel run
+        const response = await fetch("http://127.0.0.1:8000/predict/stock-risk", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            
+            // Populate data fields
+            document.getElementById("res_level").innerText = data.risk_level;
+            document.getElementById("res_score").innerText = (data.risk_score * 100).toFixed(1) + "%";
+            document.getElementById("res_delay").innerText = (data.delay_probability * 100).toFixed(1) + "%";
+            document.getElementById("res_action").innerText = data.recommended_action;
+            
+            // Dynamic color styling for risk level card
+            const levelCard = document.getElementById("card-level");
+            levelCard.className = "metric-card"; // reset classes
+            if (data.risk_level === "HIGH") {
+                levelCard.classList.add("badge-high");
+            } else if (data.risk_level === "MEDIUM") {
+                levelCard.classList.add("badge-medium");
+            } else {
+                levelCard.classList.add("badge-low");
+            }
+
+            // Reveal results with smooth animation
+            const resSection = document.getElementById("result-section");
+            resSection.style.display = "block";
+            resSection.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            alert("Server returned error status: " + response.status);
+        }
+    } catch (error) {
+        alert("Failed to connect to FastAPI backend: " + error);
+    } finally {
+        btn.innerText = "Run Real-Time Risk Analysis";
+        btn.disabled = false;
+    }
+}
+</script>
+
+</body>
+</html>
