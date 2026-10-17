@@ -23,7 +23,7 @@ StockSentry AI implements a decoupled client-server architecture designed for lo
 ┌─────────────────────────────────┐
 │   IBM LinuxONE Cloud Instance   │
 │  ┌───────────────────────────┐  │
-│  │ FastAPI REST Service       │  │
+│  │ FastAPI REST Service      │  │
 │  │ • Pydantic Schema Mapping │  │
 │  │ • Uvicorn ASGI Server     │  │
 │  └─────────────┬─────────────┘  │
@@ -61,7 +61,8 @@ StockSentry AI implements a decoupled client-server architecture designed for lo
 
 ## Repository Structure
 
-```text
+```
+text
 ├── backend_api/
 │   ├── main.py              # FastAPI application & ML feature alignment
 │   ├── requirements.txt     # Backend dependencies
@@ -72,6 +73,7 @@ StockSentry AI implements a decoupled client-server architecture designed for lo
 ├── UI/
 │   └── index.html           # Real-time risk assessment dashboard
 └── .gitignore               # System, cache, and artifact exclusions
+```
 
 ## Getting Started
 
