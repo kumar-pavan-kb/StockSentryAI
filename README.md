@@ -18,8 +18,8 @@ StockSentry AI implements a decoupled client-server architecture designed for lo
 │  • Modern HTML5 / CSS3 / ES6    │
 │  • Dynamic Fetch & DOM Updates  │
 └────────────────┬────────────────┘
-│ HTTP POST (JSON) / CORS
-▼
+                 │ HTTP POST (JSON) / CORS
+                 ▼
 ┌─────────────────────────────────┐
 │   IBM LinuxONE Cloud Instance   │
 │  ┌───────────────────────────┐  │
@@ -79,11 +79,11 @@ text
 
 ### Prerequisites
 * Python 3.10+
-* Git[cite: 11]
+* Git
 
 ### Local / Server Setup
 
-1. **Clone the repository:**[cite: 11]
+1. **Clone the repository:**
    ```bash
    git clone [https://github.com/]https://github.com/kumar-pavan-kb/StockSentryAI.git
    cd StockSentryAI
