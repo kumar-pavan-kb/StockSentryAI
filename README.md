@@ -12,7 +12,8 @@ StockSentry AI is a real-time risk assessment engine engineered to mitigate crit
 ## Architecture Overview
 
 StockSentry AI implements a decoupled client-server architecture designed for low latency, secure enterprise workload isolation, and real-time inference:
-```┌─────────────────────────────────┐
+```
+┌─────────────────────────────────┐
 │     Client / Presentation       │
 │  • Modern HTML5 / CSS3 / ES6    │
 │  • Dynamic Fetch & DOM Updates  │
@@ -34,7 +35,8 @@ StockSentry AI implements a decoupled client-server architecture designed for lo
 │  │ • Dynamic One-Hot Enc.    │  │
 │  │ • Real-time Risk Scoring  │  │
 │  └───────────────────────────┘  │
-└─────────────────────────────────┘```
+└─────────────────────────────────┘
+```
 
 ---
 
